@@ -4,15 +4,12 @@ const auth = require('../middlewares/auth');
 const userRouter = require('./users');
 const moviesRouter = require('./movies');
 const { login, createUser } = require('../controllers/users');
+
 const NotFoundError = require('../errors/NotFoundErr');
 
 const {
   NotFoundPageErrMessage,
 } = require('../constants/errorstatuses');
-
-// const {
-//   validateURL,
-// } = require('../middlewares/validation');
 
 router.post(
   '/signin',
@@ -31,7 +28,7 @@ router.post(
     body: Joi.object().keys({
       email: Joi.string().email().required(),
       password: Joi.string().required(),
-      name: Joi.string().min(2).max(30),
+      name: Joi.string().min(2).max(30).required(),
     }),
   }),
   createUser,

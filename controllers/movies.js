@@ -12,7 +12,8 @@ const {
 } = require('../constants/errorstatuses');
 
 module.exports.getMovies = (req, res, next) => {
-  Movie.find({})
+  const owner = req.user._id;
+  Movie.find({ owner })
     .then((movies) => res.send(movies))
     .catch(next);
 };
@@ -24,10 +25,12 @@ module.exports.createMovie = (req, res, next) => {
     duration,
     year,
     description,
-    image, trailer,
+    image,
+    trailer,
     nameRU,
     nameEN,
     thumbnail,
+    movieId,
   } = req.body;
 
   Movie.create({
@@ -41,6 +44,8 @@ module.exports.createMovie = (req, res, next) => {
     nameRU,
     nameEN,
     thumbnail,
+    movieId,
+    owner: req.user._id,
   })
     .then((movie) => res.status(created).send(movie))
     .catch((err) => {
@@ -74,41 +79,3 @@ module.exports.deleteMovie = (req, res, next) => {
       next(err);
     });
 };
-
-// module.exports.likeMovie = (req, res, next) => {
-//   Movie.findByIdAndUpdate(
-//     req.params.movieId,
-//     { $addToSet: { likes: req.user._id } },
-//     { new: true },
-//   )
-//     .orFail(new NotFoundError(NotFoundMovieErrMessage))
-//     .then((movie) => {
-//       res.status(ok).send(movie);
-//     })
-//     .catch((err) => {
-//       if (err.name === 'CastError') {
-//         next(new BadRequestErr(BadReqErrMessage));
-//         return;
-//       }
-//       next(err);
-//     });
-// };
-
-// module.exports.dislikeMovie = (req, res, next) => {
-//   Movie.findByIdAndUpdate(
-//     req.params.movieId,
-//     { $pull: { likes: req.user._id } },
-//     { new: true },
-//   )
-//     .orFail(new NotFoundError(NotFoundMovieErrMessage))
-//     .then((card) => {
-//       res.status(ok).send(card);
-//     })
-//     .catch((err) => {
-//       if (err.name === 'CastError') {
-//         next(new BadRequestErr(BadReqErrMessage));
-//         return;
-//       }
-//       next(err);
-//     });
-// };
