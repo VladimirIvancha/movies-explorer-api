@@ -2,6 +2,8 @@ require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const { secretTokenKey, jwtSettings } = require('../utils/config');
+
 const NotFoundError = require('../errors/NotFoundErr');
 const UnAuthorizedErr = require('../errors/UnAuthorizedErr');
 const BadRequestErr = require('../errors/BadRequestErr');
@@ -74,8 +76,8 @@ module.exports.login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key',
-        { expiresIn: '7d' },
+        NODE_ENV === 'production' ? JWT_SECRET : secretTokenKey,
+        jwtSettings,
       );
       res.send({ token });
     })
