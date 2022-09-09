@@ -1,4 +1,4 @@
-const { DEFAULT_ERROR_STATUS } = require('../utils/constants');
+const { DEFAULT_ERROR_STATUS, DEFAULT_ERROR_MSG } = require('../utils/constants');
 
 const handleErrors = (err, req, res, next) => {
   const { statusCode = DEFAULT_ERROR_STATUS, message } = err;
@@ -6,7 +6,7 @@ const handleErrors = (err, req, res, next) => {
     .status(statusCode)
     .send({
       message: statusCode === DEFAULT_ERROR_STATUS
-        ? 'Произошла ошибка'
+        ? DEFAULT_ERROR_MSG
         : message,
     });
   next();

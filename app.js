@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
 const router = require('./routes');
-const handleErrors = require('./errors/handleErrors');
+const handleErrors = require('./middlewares/handleErrors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { mongodbServer, port } = require('./utils/config');
 const limiter = require('./middlewares/rateLimiter');
@@ -19,6 +19,7 @@ app.use(helmet());
 const allowedCors = [
   'https://m.explorer.nomoredomains.sbs',
   'http://m.explorer.nomoredomains.sbs',
+  'localhost:3000',
   'http://localhost:3000',
 ];
 

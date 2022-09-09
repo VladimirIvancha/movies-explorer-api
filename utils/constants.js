@@ -16,6 +16,7 @@ const constants = {
   NEED_AUTH_ERR_MSG: 'Необходима авторизация',
   FORBIDDEN_ERR_MSG: 'Нельзя удалять фильмы других',
   WRONG_URL_FORMAT_MSG: 'Неправильный формат ссылки',
+  DEFAULT_ERROR_MSG: 'Произошла ошибка',
 };
 
 module.exports = constants;
