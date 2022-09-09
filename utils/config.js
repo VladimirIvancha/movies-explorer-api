@@ -11,6 +11,4 @@ module.exports = {
   mongodbServer,
   port,
   jwtSettings,
-  // cookieSettings,
-  // corsSettings,
 };

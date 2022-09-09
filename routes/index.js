@@ -1,44 +1,20 @@
 const router = require('express').Router();
-const { celebrate, Joi } = require('celebrate');
 const auth = require('../middlewares/auth');
 const userRouter = require('./users');
 const moviesRouter = require('./movies');
 const { login, createUser } = require('../controllers/users');
-
+const { signupValidator, signinValidator } = require('../middlewares/validation');
 const NotFoundError = require('../errors/NotFoundErr');
+const { NOT_FOUND_PAGE_ERR_MSG } = require('../utils/constants');
 
-const {
-  NotFoundPageErrMessage,
-} = require('../constants/errorstatuses');
-
-router.post(
-  '/signin',
-  celebrate({
-    body: Joi.object().keys({
-      email: Joi.string().email().required(),
-      password: Joi.string().required(),
-    }),
-  }),
-  login,
-);
-
-router.post(
-  '/signup',
-  celebrate({
-    body: Joi.object().keys({
-      email: Joi.string().email().required(),
-      password: Joi.string().required(),
-      name: Joi.string().min(2).max(30).required(),
-    }),
-  }),
-  createUser,
-);
+router.post('/signin', signinValidator, login);
+router.post('/signup', signupValidator, createUser);
 
 router.use(auth);
 router.use('/users', userRouter);
 router.use('/movies', moviesRouter);
 router.use('*', (req, res, next) => {
-  next(new NotFoundError(NotFoundPageErrMessage));
+  next(new NotFoundError(NOT_FOUND_PAGE_ERR_MSG));
 });
 
 module.exports = router;

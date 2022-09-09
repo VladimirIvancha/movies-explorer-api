@@ -12,10 +12,7 @@ const limiter = require('./middlewares/rateLimiter');
 
 const app = express();
 
-const {
-  PORT = port,
-  MONGODB_ADDRESS = mongodbServer,
-} = process.env;
+const { PORT = port, MONGODB_ADDRESS = mongodbServer } = process.env;
 
 app.use(helmet());
 

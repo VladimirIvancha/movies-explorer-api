@@ -12,13 +12,13 @@ const ConflictErr = require('../errors/ConflictErr');
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 const {
-  ok,
-  created,
-  BadReqErrMessage,
-  NotFoundUserErrMessage,
-  ConflictErrMessage,
-  UnAuthorizedErrMessage,
-} = require('../constants/errorstatuses');
+  OK_STATUS,
+  CREATED_STATUS,
+  BAD_REQ_ERR_MSG,
+  NOT_FOUND_USER_ERR_MSG,
+  CONFLICT_ERR_MSG,
+  UNAUTHORIZED_ERR_MSG,
+} = require('../utils/constants');
 
 module.exports.getUserMe = (req, res, next) => {
   User.findById(req.user._id)
@@ -36,16 +36,16 @@ module.exports.createUser = (req, res, next) => {
     .then((hash) => User.create({
       email, password: hash, name,
     }))
-    .then((user) => res.status(created).send({
+    .then((user) => res.status(CREATED_STATUS).send({
       name: user.name,
       email: user.email,
       _id: user._id,
     }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestErr(BadReqErrMessage));
+        next(new BadRequestErr(BAD_REQ_ERR_MSG));
       } else if (err.code === 11000) {
-        next(new ConflictErr(ConflictErrMessage));
+        next(new ConflictErr(CONFLICT_ERR_MSG));
       } else {
         next(err);
       }
@@ -56,13 +56,13 @@ module.exports.updateUser = (req, res, next) => {
   const { name, email } = req.body;
 
   User.findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true })
-    .orFail(new NotFoundError(NotFoundUserErrMessage))
+    .orFail(new NotFoundError(NOT_FOUND_USER_ERR_MSG))
     .then((user) => {
-      res.status(ok).send(user);
+      res.status(OK_STATUS).send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestErr(BadReqErrMessage));
+        next(new BadRequestErr(BAD_REQ_ERR_MSG));
         return;
       }
       next(err);
@@ -82,6 +82,6 @@ module.exports.login = (req, res, next) => {
       res.send({ token });
     })
     .catch(() => {
-      next(new UnAuthorizedErr(UnAuthorizedErrMessage));
+      next(new UnAuthorizedErr(UNAUTHORIZED_ERR_MSG));
     });
 };

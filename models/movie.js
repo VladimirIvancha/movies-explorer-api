@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
 const { isURL } = require('validator');
 
-const {
-  WrongURLFormatMessage,
-} = require('../constants/errorstatuses');
+const { WRONG_URL_FORMAT_MSG } = require('../utils/constants');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -33,7 +31,7 @@ const movieSchema = new mongoose.Schema({
       validator(link) {
         return isURL(link);
       },
-      message: WrongURLFormatMessage,
+      message: WRONG_URL_FORMAT_MSG,
     },
   },
   trailerLink: {
@@ -43,7 +41,7 @@ const movieSchema = new mongoose.Schema({
       validator(link) {
         return isURL(link);
       },
-      message: WrongURLFormatMessage,
+      message: WRONG_URL_FORMAT_MSG,
     },
   },
   thumbnail: {
@@ -53,7 +51,7 @@ const movieSchema = new mongoose.Schema({
       validator(link) {
         return isURL(link);
       },
-      message: WrongURLFormatMessage,
+      message: WRONG_URL_FORMAT_MSG,
     },
   },
   owner: {
