@@ -12,3 +12,5 @@
 ## Домен сервера для бекенда  
 https://api.m.explorer.nomoredomains.sbs
 
+## Домен сервера для фронтенда  
+https://m.explorer.nomoredomains.sbs
