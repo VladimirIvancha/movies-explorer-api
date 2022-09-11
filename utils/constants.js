@@ -17,6 +17,8 @@ const constants = {
   FORBIDDEN_ERR_MSG: 'Нельзя удалять фильмы других',
   WRONG_URL_FORMAT_MSG: 'Неправильный формат ссылки',
   DEFAULT_ERROR_MSG: 'Произошла ошибка',
+  USER_MINLENGTH_VALIDATION_MSG: 'Имя пользователя должно быть не менее 2х знаков, сейчас {VALUE}',
+  USER_MAXLENGTH_VALIDATION_MSG: 'Имя пользователя должно быть не более 30ти знаков, сейчас {VALUE}',
 };
 
 module.exports = constants;

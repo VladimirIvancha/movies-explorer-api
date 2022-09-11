@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
 
-const { UNAUTHORIZED_ERR_MSG } = require('../utils/constants');
+const { UNAUTHORIZED_ERR_MSG, USER_MINLENGTH_VALIDATION_MSG, USER_MAXLENGTH_VALIDATION_MSG } = require('../utils/constants');
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    minlength: [2, 'Имя пользователя должно быть не менее 2х знаков, сейчас {VALUE}'],
-    maxlength: [30, 'Имя пользователя должно быть не более 30ти знаков, сейчас {VALUE}'],
+    minlength: [2, USER_MINLENGTH_VALIDATION_MSG],
+    maxlength: [30, USER_MAXLENGTH_VALIDATION_MSG],
   },
   email: {
     type: String,
