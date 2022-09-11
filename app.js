@@ -9,36 +9,14 @@ const handleErrors = require('./middlewares/handleErrors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { mongodbServer, port } = require('./utils/config');
 const limiter = require('./middlewares/rateLimiter');
+const cors = require('./middlewares/cors');
 
 const app = express();
 
 const { PORT = port, MONGODB_ADDRESS = mongodbServer } = process.env;
 
 app.use(helmet());
-
-const allowedCors = [
-  'https://m.explorer.nomoredomains.sbs',
-  'http://m.explorer.nomoredomains.sbs',
-  'localhost:3000',
-  'http://localhost:3000',
-];
-
-// eslint-disable-next-line consistent-return
-app.use((req, res, next) => {
-  const { origin } = req.headers;
-  const { method } = req;
-  const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
-  const requestHeaders = req.headers['access-control-request-headers'];
-  if (allowedCors.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-  }
-  if (method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
-    res.header('Access-Control-Allow-Headers', requestHeaders);
-    return res.end();
-  }
-  next();
-});
+app.use(cors);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
