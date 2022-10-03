@@ -19,42 +19,11 @@ module.exports.getMovies = (req, res, next) => {
 };
 
 module.exports.createMovie = (req, res, next) => {
-  const {
-    country,
-    director,
-    duration,
-    year,
-    description,
-    image,
-    trailerLink,
-    nameRU,
-    nameEN,
-    thumbnail,
-    movieId,
-  } = req.body;
+  req.body.owner = req.user._id;
 
-  Movie.create({
-    country,
-    director,
-    duration,
-    year,
-    description,
-    image,
-    trailerLink,
-    nameRU,
-    nameEN,
-    thumbnail,
-    movieId,
-    owner: req.user._id,
-  })
+  Movie.create(req.body)
     .then((movie) => res.status(CREATED_STATUS).send(movie))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        next(new BadRequestErr(BAD_REQ_ERR_MSG));
-        return;
-      }
-      next(err);
-    });
+    .catch(next);
 };
 
 module.exports.deleteMovie = (req, res, next) => {
