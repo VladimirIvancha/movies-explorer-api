@@ -87,3 +87,7 @@ module.exports.login = (req, res, next) => {
       next(new UnAuthorizedErr(UNAUTHORIZED_ERR_MSG));
     });
 };
+
+module.exports.signOut = (req, res) => {
+  res.clearCookie('jwt').send({ message: 'Успешный выход из системы' });
+};
