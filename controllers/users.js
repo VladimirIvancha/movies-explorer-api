@@ -17,7 +17,6 @@ const {
   BAD_REQ_ERR_MSG,
   NOT_FOUND_USER_ERR_MSG,
   CONFLICT_ERR_MSG,
-  UNAUTHORIZED_ERR_MSG,
 } = require('../utils/constants');
 
 module.exports.getUserMe = (req, res, next) => {
@@ -83,8 +82,8 @@ module.exports.login = (req, res, next) => {
       );
       res.send({ token });
     })
-    .catch(() => {
-      next(new UnAuthorizedErr(UNAUTHORIZED_ERR_MSG));
+    .catch((err) => {
+      next(new UnAuthorizedErr(err.message));
     });
 };
 
