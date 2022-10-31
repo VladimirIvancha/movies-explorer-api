@@ -20,7 +20,7 @@ Backend создан на Express.js. Использует готовую баз
 4. Проект запускается на http://localhost:3000/
 
 ### Ссылка на GitHub Pages:
-https://github.com/VladimirIvancha/express-mesto-gha
+https://github.com/VladimirIvancha/movies-explorer-api
 ____
 
 ### Планы по доработке:
